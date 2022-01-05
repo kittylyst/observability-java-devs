@@ -3,7 +3,7 @@ plugins {
 }
 
 springBoot {
-    mainClass.set("com.redhat.app.Application")
+    mainClass.set("com.redhat.example.StarWarsApplication")
 }
 
 tasks.named<JavaExec>("bootRun") {
@@ -12,7 +12,7 @@ tasks.named<JavaExec>("bootRun") {
 }
 
 configurations.all {
-//    exclude module: "spring-boot-starter-logging"
+    exclude(module = "spring-boot-starter-logging")
 }
 // Force upgrade log4j2 to avoid vulnerability: https://spring.io/blog/2021/12/10/log4j2-vulnerability-and-spring-boot
 ext["log4j2.version"] = "2.17.1"
@@ -37,6 +37,17 @@ dependencies {
     implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:${otelInstrumentationVersion}"))
     implementation(platform("io.grpc:grpc-bom:${grpcVersion}"))
     implementation("com.linecorp.armeria:armeria-bom:${armeriaBomVersion}")
+
+    api("io.opentelemetry:opentelemetry-api")
+    api("io.opentelemetry:opentelemetry-api-metrics")
+    api("io.opentelemetry:opentelemetry-sdk")
+    api("io.opentelemetry:opentelemetry-sdk-metrics")
+//    api 'io.opentelemetry:opentelemetry-exporter-logging'
+    api("io.opentelemetry:opentelemetry-exporter-otlp")
+    api("io.opentelemetry:opentelemetry-exporter-otlp-metrics")
+//    api("io.opentelemetry:opentelemetry-exporter-otlp-logs")
+    api("io.opentelemetry:opentelemetry-semconv")
+
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testImplementation("org.mockito:mockito-core:4.1.0")
