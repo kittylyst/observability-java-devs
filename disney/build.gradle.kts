@@ -3,7 +3,7 @@ plugins {
 }
 
 springBoot {
-    mainClass.set("com.redhat.example.StarWarsApplication")
+    mainClass.set("com.redhat.example.DisneyApplication")
 }
 
 tasks.named<JavaExec>("bootRun") {
