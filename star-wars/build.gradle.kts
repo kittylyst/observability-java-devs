@@ -8,7 +8,7 @@ springBoot {
 
 tasks.named<JavaExec>("bootRun") {
     // Run the app on port 8080
-    jvmArgs = listOf("-Dserver.port=8080")
+    jvmArgs = listOf("-Dserver.port=8083")
 }
 
 configurations.all {
@@ -23,6 +23,7 @@ val otelAlphaVersion: String by project
 val otelInstrumentationVersion: String by project
 val grpcVersion: String by project
 val armeriaBomVersion: String by project
+val otelProtoVersion: String by project
 
 repositories {
     mavenCentral()
@@ -45,7 +46,9 @@ dependencies {
     api("io.opentelemetry:opentelemetry-exporter-otlp")
     api("io.opentelemetry:opentelemetry-exporter-otlp-metrics")
     api("io.opentelemetry:opentelemetry-semconv")
-
+    api("io.opentelemetry.proto:opentelemetry-proto:${otelProtoVersion}")
+    implementation("io.grpc:grpc-netty-shaded")
+    api("io.grpc:grpc-stub")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testImplementation("org.mockito:mockito-core:4.1.0")
