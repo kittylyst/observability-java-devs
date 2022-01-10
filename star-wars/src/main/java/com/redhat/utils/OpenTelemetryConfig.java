@@ -3,19 +3,13 @@ package com.redhat.utils;
 import io.opentelemetry.api.metrics.GlobalMeterProvider;
 import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
 import io.opentelemetry.context.propagation.ContextPropagators;
-//import io.opentelemetry.exporter.logging.LoggingMetricExporter;
-//import io.opentelemetry.exporter.logging.LoggingSpanExporter;
 import io.opentelemetry.exporter.otlp.internal.RetryPolicy;
 import io.opentelemetry.exporter.otlp.internal.grpc.DefaultGrpcExporterBuilder;
-//import io.opentelemetry.exporter.otlp.logs.OtlpGrpcLogExporter;
-//import io.opentelemetry.exporter.otlp.logs.OtlpGrpcLogExporterBuilder;
 import io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporter;
 import io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporterBuilder;
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporterBuilder;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
-//import io.opentelemetry.sdk.logs.SdkLogEmitterProvider;
-//import io.opentelemetry.sdk.logs.export.BatchLogProcessor;
 import io.opentelemetry.sdk.metrics.SdkMeterProvider;
 import io.opentelemetry.sdk.metrics.data.AggregationTemporality;
 import io.opentelemetry.sdk.metrics.export.PeriodicMetricReader;
@@ -25,7 +19,6 @@ import io.opentelemetry.sdk.trace.export.BatchSpanProcessor;
 
 import java.time.Duration;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_INSTANCE_ID;
@@ -33,8 +26,14 @@ import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SE
 
 public class OpenTelemetryConfig {
 
-  // "OTLP_HOST"
-  private static final Supplier<String> OTLP_HOST_SUPPLIER = () -> "http://localhost:4317";
+  private static final Supplier<String> OTLP_HOST_SUPPLIER = () -> {
+    var ret = "http://localhost:4317";
+    var tmp = System.getenv("OTLP_HOST");
+    if (tmp != null & !tmp.equals("")) {
+      ret = tmp;
+    }
+    return ret;
+  };
 
   public static void configureGlobal(String defaultServiceName) {
     var resource = configureResource(defaultServiceName);

@@ -9,7 +9,7 @@ public class DisneyApplication {
 
   public static void main(String[] args) {
     // Configure OpenTelemetry as early as possible
-    OpenTelemetryConfig.configureGlobal("marvel-app");
+    OpenTelemetryConfig.configureGlobal("disney-app");
     SpringApplication.run(DisneyApplication.class, args);
   }
 }
