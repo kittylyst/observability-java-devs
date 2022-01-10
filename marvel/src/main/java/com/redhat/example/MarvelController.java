@@ -33,7 +33,10 @@ public class MarvelController {
       var span = serverSpan("/getCharacter", HttpMethod.GET.name());
 
       try {
+        Thread.sleep((int)(100 * Math.random()));
         return characters.get((int) (characters.size() * Math.random()));
+      } catch (InterruptedException e) {
+        return "<Error>";
       } finally {
         span.end();
       }
