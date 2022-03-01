@@ -29,7 +29,7 @@ public class OpenTelemetryConfig {
   private static final Supplier<String> OTLP_HOST_SUPPLIER = () -> {
     var ret = "http://localhost:4317";
     var tmp = System.getenv("OTLP_HOST");
-    if (tmp != null & !tmp.equals("")) {
+    if (tmp != null && !tmp.equals("")) {
       ret = tmp;
     }
     return ret;
